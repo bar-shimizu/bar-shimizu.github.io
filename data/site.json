@@ -1,6 +1,14 @@
 {
-  "v": 1,
-  "sign": "closed",
-  "shelf": [],
-  "updatedAt": "2026-10-11T00:00:00+09:00"
+ "v": 1,
+ "sign": "closed",
+ "shelf": [
+  {
+   "id": "b_ZLuip_jk",
+   "name": "サントリー角",
+   "type": "whisky",
+   "note": "ハイボール用に",
+   "url": "https://amzn.asia/d/0aUVFWqz"
+  }
+ ],
+ "updatedAt": "2026-10-12T18:32:24+09:00"
 }
