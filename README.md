@@ -15,7 +15,7 @@
 | 用途 | リポジトリ | 公開URL |
 |---|---|---|
 | 本番 | `bar-shimizu/bar-shimizu.github.io` | https://bar-shimizu.github.io/ |
-| テスト用 | `bar-shimizu/bar-shimizu-test` | https://bar-shimizu.github.io/bar-shimizu-test/ |
+| テスト用 | `bar-shimizu/bar-shimizu-test` | https://bar-shimizu.github.io/bar-shimizu-test/ （普段は Private で非公開。改修の検証のときだけ Public に戻す：6章） |
 
 - お客様用：`/`（看板 → 3回ノック → 暗証番号 → 案内状）
 - 管理用：`/backroom/`（どこからもリンクしない）
@@ -127,6 +127,19 @@ python -m http.server 8765
 - 暗号のテスト：`node tests/run-node.mjs`、またはブラウザで `tests/crypto.test.html` を開く
 - 本物の GitHub を使わずに管理画面を試すとき：サイトの複製を作り、偽の GitHub API を立てて `?mockapi=http://127.0.0.1:<port>` を付けて開く（`127.0.0.1` のときだけ効く。公開URLでは効かない）
 - 文言の変更：お客様に見える固定の文言は `assets/js/render.js` の `TEXT` にまとめてある
+
+### 改修の流れ（公開後）
+テスト用リポジトリは、普段は **Private**（GitHub Pages は止まり、テスト用サイトは見られない）にしておく。テスト用トークンも削除しておく。
+
+1. 手元で直して確かめる（上の「手元での確認」。管理画面は偽の GitHub API で試す）
+2. スマホの実機で確かめたいときだけ：
+   - テスト用リポジトリを **Public** に戻す（Settings → General → Danger Zone → Change visibility）
+   - Settings → Pages で「Deploy from a branch」「main ／ / (root)」になっているか確かめる（外れていれば選び直す）。表示まで1分ほど
+   - テスト用トークンを作り直し（3章）、テスト用サイトの管理画面で「設定をやり直す」から登録し直す（**テスト用の合言葉**を入れる）
+   - テスト中に実在のお客様の名前を使わない（Public の間は全履歴が誰でも見られる）
+3. テスト用リポジトリに送る：`git pull --rebase test main` → コミット → `git push test main`
+4. 本番に送る：`bash tools/release_prod.sh` → 中身を確かめる → `git push prod prod-release:main`
+5. 終わったら、テスト用リポジトリを **Private** に戻し、テスト用トークンを**削除**する（Settings → Developer settings → Fine-grained tokens → 対象を確かめて Delete）
 
 ### 送り方
 - テスト用リポジトリには管理画面からの保存（`data/`）が積み重なる。送る前に取り込む：`git pull --rebase test main`
