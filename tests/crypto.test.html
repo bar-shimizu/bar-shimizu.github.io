@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>crypto.js のテスト</title>
+<style>
+  body{margin:0;padding:16px;background:#1c1411;color:#ecdfc6;font:14px/1.7 "Hiragino Sans","Yu Gothic",sans-serif}
+  h1{font-size:18px;margin:0 0 4px}
+  p{color:#b9a98d;margin:0 0 12px}
+  ol{padding-left:1.4em;margin:0}
+  li{margin:4px 0}
+  .ok{color:#8fbf86}.ng{color:#e8735a}.ms{color:#8a6f42;font-size:12px}
+  #sum{font-weight:700;margin-top:12px}
+</style>
+</head>
+<body>
+<h1>crypto.js のテスト</h1>
+<p>開くと自動で実行します。本番と同じ回数の鍵作りを含むので、数秒かかります。</p>
+<ol id="list"></ol>
+<div id="sum" aria-live="polite">実行中…</div>
+<script type="module">
+  import { runAll } from "./crypto.cases.js";
+  const list = document.getElementById("list");
+  const failed = await runAll((name, ok, ms, err) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="${ok ? "ok" : "ng"}">${ok ? "OK" : "NG"}</span> `;
+    li.append(name, " ");
+    const t = document.createElement("span"); t.className = "ms"; t.textContent = `(${ms.toFixed(0)} ms)`; li.append(t);
+    if (!ok) { const e = document.createElement("div"); e.className = "ng"; e.textContent = err; li.append(e); }
+    list.append(li);
+  });
+  const sum = document.getElementById("sum");
+  sum.textContent = failed ? `${failed} 件失敗しました` : "すべて合格";
+  sum.className = failed ? "ng" : "ok";
+  document.title = failed ? "NG" : "OK";
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#1c1411">
+<title>Bar清水</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Shippori+Mincho:wght@400;600;800&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+<script type="module" src="assets/js/guest.js"></script>
+</head>
+<body>
+<main class="wrap">
+
+  <!-- ========== G01 看板 ========== -->
+  <section class="screen" id="s-front">
+    <div class="door dark" id="door" role="button" tabindex="0" aria-label="扉。ノックする">
+      <div class="neon off" id="neon"><span class="flick">B</span>ar清水</div>
+      <div class="plate" id="plate">本日休業</div>
+      <p class="small" id="doorText">清水の都合で休業となります。また別日にお越しください。</p>
+      <div class="knock" id="knock" aria-live="polite"></div>
+      <span class="knob" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <!-- ========== G02 暗証番号 ========== -->
+  <section class="screen" id="s-pin" hidden>
+    <div class="card pin-card">
+      <div class="eyebrow">Who's there?</div>
+      <h2 style="margin-top:8px">扉の向こうから声がする</h2>
+      <p class="lead">「……お約束の番号を、どうぞ」</p>
+      <div class="dots" id="dots" aria-live="polite"><span></span><span></span><span></span><span></span></div>
+      <div class="err" id="pinErr" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button">1</button><button type="button">2</button><button type="button">3</button>
+        <button type="button">4</button><button type="button">5</button><button type="button">6</button>
+        <button type="button">7</button><button type="button">8</button><button type="button">9</button>
+        <button type="button" class="fn" data-fn="back">戻る</button><button type="button">0</button><button type="button" class="fn" data-fn="clear">消す</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== G03 案内状 ========== -->
+  <section class="screen" id="s-guest" hidden>
+    <article class="card invite" id="invite"></article>
+  </section>
+
+</main>
+<noscript><p style="text-align:center;color:#b9a98d">このページを見るには、JavaScript を有効にしてください。</p></noscript>
+</body>
+</html>

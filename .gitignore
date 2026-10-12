@@ -1,0 +1,15 @@
+# 公開リポジトリに含めないもの（確認事項一覧 No.15）
+# 設計書・管理用ファイルは開発者の手元と管理者の Google ドライブで管理する
+docs/
+management/
+
+# サイトの動作に不要なもの（確認事項一覧 No.20）
+tools/
+reference/
+CLAUDE.md
+
+# Office の一時ファイル
+~$*
+
+# Claude Code のローカル設定（確認用サーバーなど）
+.claude/

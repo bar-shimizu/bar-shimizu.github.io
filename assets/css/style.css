@@ -1,0 +1,280 @@
+/* Bar清水 共通スタイル（reference/prototype.html から移植）
+   Layout: one narrow "bar counter" column; each screen is a framed card on dark walnut, like a menu propped on the counter. Single dark look by choice (a bar at night). */
+:root{
+  --walnut:#1c1411;
+  --walnut-2:#2a1e19;
+  --leather:#3a2a22;
+  --brass:#c8a25e;
+  --brass-dim:#8a6f42;
+  --cream:#ecdfc6;
+  --cream-dim:#b9a98d;
+  --neon:#e8735a;
+  --neon-off:#5a3a33;
+  --green:#5f7a5a;
+  --line:rgba(200,162,94,.28);
+  --f-display:"Limelight","Shippori Mincho",serif;
+  --f-body:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-type:"Courier Prime","Courier New",monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;
+  background:var(--walnut);
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(200,162,94,.14), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 2px, transparent 2px 7px);
+  color:var(--cream);
+  font-family:var(--f-body);
+  font-size:15px;
+  line-height:1.85;
+  min-height:100vh;
+  padding-inline:16px;
+  padding-block:0 48px;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+.wrap{max-width:620px;margin:0 auto;padding-top:28px}
+
+/* ===== front door ===== */
+.door{
+  margin-top:12px;
+  background:linear-gradient(180deg,var(--leather),var(--walnut-2));
+  border:1px solid var(--line);
+  border-radius:180px 180px 6px 6px;
+  padding:56px 28px 40px;
+  text-align:center;
+  position:relative;
+  box-shadow:inset 0 0 0 10px rgba(0,0,0,.18), 0 30px 60px rgba(0,0,0,.45);
+  cursor:pointer;user-select:none;
+  transition:filter .6s;
+}
+.door.dark{filter:brightness(.7)}
+.door.thud{animation:thud .18s}
+@keyframes thud{50%{transform:translateX(2px) scale(.997)}}
+.door .knob{
+  position:absolute;right:26px;top:58%;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #f0d38f, var(--brass-dim));
+}
+.neon{
+  font-family:var(--f-display);font-size:clamp(40px,11vw,64px);line-height:1.1;
+  color:var(--neon);
+  text-shadow:0 0 4px var(--neon),0 0 18px rgba(232,115,90,.55),0 0 40px rgba(232,115,90,.25);
+  letter-spacing:.04em;transition:color .5s,text-shadow .5s;
+}
+.neon.off{color:var(--neon-off);text-shadow:none}
+.neon:not(.off) .flick{animation:flick 6s infinite}
+@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.25}94%{opacity:1}96%{opacity:.4}97%{opacity:1}}
+.plate{
+  display:inline-block;margin-top:34px;padding:10px 22px;
+  border:1px solid var(--brass-dim);background:rgba(0,0,0,.25);
+  font-size:14px;letter-spacing:.25em;
+}
+.door .small{margin-top:22px;font-size:12px;color:var(--cream-dim);line-height:1.9}
+.knock{min-height:22px;margin-top:10px;font-family:var(--f-type);font-size:13px;color:var(--brass);letter-spacing:.2em}
+.knock.long{font-family:var(--f-body);letter-spacing:.05em;line-height:1.7}
+
+/* ===== shared card ===== */
+.card{
+  background:var(--walnut-2);border:1px solid var(--line);border-radius:4px;
+  padding:28px 24px;position:relative;
+}
+.card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(200,162,94,.12);pointer-events:none}
+.eyebrow{font-family:var(--f-type);font-size:11px;letter-spacing:.3em;color:var(--brass);text-transform:uppercase}
+h1,h2,h3{font-weight:800;text-wrap:balance;margin:0}
+h2{font-size:22px;letter-spacing:.06em}
+.rule{border:0;height:1px;background:var(--line);margin:22px 0}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--brass);color:var(--walnut);border:0;border-radius:3px;
+  padding:10px 20px;font-weight:600;letter-spacing:.1em;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--brass);border:1px solid var(--brass-dim)}
+.btn.small{padding:6px 12px;font-size:12px;letter-spacing:.05em}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.55;cursor:default;filter:none}
+.field{
+  width:100%;background:var(--walnut);border:1px solid var(--line);border-radius:3px;
+  padding:10px 12px;
+}
+/* iOS: date/time/select have their own intrinsic width and centered text — normalize all fields */
+.field{display:block;max-width:100%;min-width:0;min-height:46px;-webkit-appearance:none;appearance:none;text-align:left;line-height:1.5}
+input.field[type="date"],input.field[type="time"]{min-width:100%;width:100%}
+.field::-webkit-date-and-time-value{text-align:left;margin:0}
+.field::-webkit-datetime-edit{padding:0}
+select.field{background-image:linear-gradient(45deg,transparent 50%,var(--brass) 50%),linear-gradient(135deg,var(--brass) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 12px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:34px}
+.form-grid>div{min-width:0}
+.err{color:var(--neon);font-size:13px;min-height:1.6em;margin-top:6px}
+.err.wait,.err.info{color:var(--brass)}
+
+/* ===== PIN (guest) ===== */
+.pin-card{max-width:360px;margin:12px auto 0;text-align:center}
+.pin-card .lead{font-size:13px;color:var(--cream-dim);margin-top:6px}
+.dots{display:flex;justify-content:center;gap:14px;margin:24px 0 6px}
+.dots span{
+  width:44px;height:56px;border:1px solid var(--brass-dim);border-radius:3px;
+  display:grid;place-items:center;font-family:var(--f-type);font-size:24px;color:var(--brass);
+  background:rgba(0,0,0,.25);
+}
+.dots.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:14px auto 0}
+.pad button{
+  aspect-ratio:1.3/1;border-radius:50%;border:1px solid var(--line);
+  background:radial-gradient(circle at 40% 35%,var(--leather),var(--walnut));
+  font-family:var(--f-type);font-size:20px;cursor:pointer;color:var(--cream);
+}
+.pad button:active{background:var(--brass);color:var(--walnut)}
+.pad button[disabled]{opacity:.45;cursor:default}
+.pad .fn{font-size:12px;color:var(--cream-dim)}
+
+/* ===== admin ===== */
+.login{max-width:380px;margin:20px auto 0;text-align:center}
+.login label{display:block;font-size:13px;color:var(--cream-dim);margin:18px 0 6px;text-align:left}
+.login .lead{font-size:13px;color:var(--cream-dim);margin:10px 0 0;text-align:left;line-height:1.8}
+.login .resetup{margin-top:14px}
+.admin-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+
+.switchboard{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:16px 18px;margin-bottom:8px;
+}
+.switchboard .mini{font-family:var(--f-display);font-size:24px;line-height:1}
+.switchboard .state{font-size:12px;color:var(--cream-dim);margin-top:4px}
+.switchboard .neon-note{font-size:12px;color:var(--brass);margin-top:2px}
+.switchboard .err{margin-top:2px;min-height:0}
+.sign-select{width:auto;min-width:9em;flex:none}
+.toggle{
+  position:relative;width:74px;height:38px;border-radius:999px;border:1px solid var(--brass-dim);
+  background:var(--walnut);cursor:pointer;flex:none;
+}
+.toggle::after{
+  content:"";position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#f0d38f,var(--brass-dim));transition:transform .25s;
+}
+.toggle[aria-checked="true"]{background:rgba(232,115,90,.25);border-color:var(--neon)}
+.toggle[aria-checked="true"]::after{transform:translateX(36px)}
+.toggle[disabled]{opacity:.55;cursor:default}
+
+.ledger{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.ledger li{
+  background:var(--walnut);border:1px solid var(--line);border-radius:3px;
+  padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;
+}
+.ledger li.is-past{opacity:.62}
+.ledger li.empty{display:block;color:var(--cream-dim)}
+.ledger .date{font-family:var(--f-type);font-size:13px;color:var(--brass);font-variant-numeric:tabular-nums}
+.ledger .who{font-weight:600;min-width:0}
+.ledger .who small{display:block;font-weight:400;font-size:12px;color:var(--cream-dim)}
+.ledger .meta{font-family:var(--f-type);font-size:12px;color:var(--cream-dim)}
+.ledger .meta b{color:var(--cream);letter-spacing:.2em;font-weight:700}
+.ledger .acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.ledger .copy-fallback{grid-column:1/-1}
+.pill{font-family:var(--f-type);font-size:11px;letter-spacing:.1em;padding:2px 10px;border-radius:999px;border:1px solid;justify-self:end;align-self:start}
+.pill.up{color:var(--brass);border-color:var(--brass-dim)}
+.pill.today{color:var(--walnut);background:var(--neon);border-color:var(--neon)}
+.pill.past{color:var(--cream-dim);border-color:rgba(185,169,141,.35)}
+.section-label{font-family:var(--f-type);font-size:11px;letter-spacing:.25em;color:var(--cream-dim);margin:22px 0 8px}
+
+/* リンクのコピーができないときの、選択用の入力欄 */
+.copy-fallback{margin-top:4px}
+.copy-fallback .field{font-family:var(--f-type);font-size:12px;min-height:0;padding:8px 10px}
+.copy-fallback .hint-text{font-size:12px;color:var(--brass);margin-top:4px}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.form-grid .full{grid-column:1/-1}
+.form-grid label{display:block;font-size:12px;color:var(--cream-dim);margin-bottom:4px;letter-spacing:.05em}
+textarea.field{min-height:96px;resize:vertical;line-height:1.7}
+.pin-row{display:flex;gap:8px}
+.pin-row .field{font-family:var(--f-type);letter-spacing:.4em;font-size:18px}
+.made{
+  margin-top:18px;padding:16px;border:1px dashed var(--brass-dim);border-radius:3px;
+  background:rgba(0,0,0,.2);font-size:13px;
+}
+.made dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0 0}
+.made dt{font-family:var(--f-type);font-size:11px;letter-spacing:.2em;color:var(--brass);padding-top:2px}
+.made dd{margin:0;font-family:var(--f-type);word-break:break-all;min-width:0}
+.made .pin{font-size:18px;letter-spacing:.4em;color:var(--brass)}
+.made .sub{color:var(--cream-dim);margin-top:10px}
+.made-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* ===== guest invitation ===== */
+.invite{text-align:center}
+.invite .crest{font-family:var(--f-display);font-size:34px;color:var(--brass);letter-spacing:.06em}
+.invite h1{font-size:clamp(22px,6vw,28px);margin-top:26px;letter-spacing:.08em}
+.invite .lead{color:var(--cream-dim);margin-top:6px;font-size:14px}
+.invite .lead-en{font-family:var(--f-type);font-size:12px;letter-spacing:.35em;padding-left:.35em}
+.facts{margin:26px auto 0;max-width:420px;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:10px 18px}
+.facts dt{font-family:var(--f-type);font-size:11px;letter-spacing:.2em;color:var(--brass);padding-top:4px;white-space:nowrap}
+.facts dd{margin:0;min-width:0;font-variant-numeric:tabular-nums}
+.letter{margin:30px auto 0;max-width:460px;text-align:left;white-space:pre-wrap;font-size:15px;line-height:2}
+.sign{text-align:right;margin-top:10px;font-size:13px;color:var(--cream-dim);max-width:460px;margin-inline:auto}
+
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.extras.single{grid-template-columns:minmax(0,1fr);max-width:calc(50% - 8px);margin-inline:auto}
+.coaster,.glass{perspective:800px;cursor:pointer;background:none;border:0;padding:0;text-align:center;min-width:0}
+.flip{position:relative;width:100%;aspect-ratio:1/1;max-width:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+.is-open .flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px}
+.face.back{transform:rotateY(180deg)}
+/* ロックグラス（今夜の一杯）：白いシルエット。押すとお酒が満ち、その中に名前が浮かぶ */
+.glass-stage{position:relative;width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+.glass-art{position:relative;width:92%;max-width:100%}
+.glass .rocks{display:block;width:100%;height:auto}
+.glass .liquid{transform:translateY(72px);transition:transform 1.2s cubic-bezier(.35,.6,.25,1)}
+.glass.is-open .liquid{transform:translateY(0)}
+/* お酒の中に浮かぶ文字（液面が上がるのに合わせて、下から現れる） */
+.glass-text{position:absolute;left:18%;right:18%;top:25%;bottom:20%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#fff4ec;text-shadow:0 1px 3px rgba(40,5,12,.6);clip-path:inset(100% 0 0 0);transition:clip-path 1.2s cubic-bezier(.35,.6,.25,1);overflow-wrap:anywhere;min-width:0}
+.glass.is-open .glass-text{clip-path:inset(0 0 0 0)}
+.glass-text .k{font-family:var(--f-type);font-size:10px;letter-spacing:.25em;opacity:.85}
+.glass-text .v{font-weight:800;font-size:15px;line-height:1.4}
+.coaster .face{border-radius:50%;border:1px dashed var(--brass-dim)}
+.coaster .front{background:radial-gradient(circle,var(--leather),var(--walnut-2))}
+.coaster .front .c-ring{font-family:var(--f-type);font-size:10px;letter-spacing:.3em;color:var(--brass)}
+.coaster .front .c-mark{font-family:var(--f-display);font-size:30px;color:var(--brass);line-height:1}
+.coaster .back{background:var(--green);color:var(--cream)}
+.face .k{font-family:var(--f-type);font-size:10px;letter-spacing:.25em;opacity:.75}
+.face .v{font-weight:800;font-size:15px;line-height:1.5;margin-top:6px}
+.face .s{font-size:11px;margin-top:6px;opacity:.85;line-height:1.6}
+/* 集合場所のリンク（Google マップ）。裏返す前は押せないようにする */
+.face a.map{display:block;color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;overflow-wrap:anywhere}
+.face a.map::after{content:"\00a0\2197";font-size:.8em;font-weight:400}
+.coaster:not(.is-open) a.map{pointer-events:none}
+.coaster .tap{display:block;width:100%;background:none;border:0;padding:0;cursor:pointer}
+.tap{font-family:var(--f-type);font-size:10px;letter-spacing:.2em;color:var(--cream-dim);margin-top:8px}
+.rules{margin:30px auto 0;max-width:460px;text-align:left;font-size:13px;color:var(--cream-dim)}
+.rules ol{margin:6px 0 0;padding-left:1.4em}
+.rules ol li+li{margin-top:4px}
+.closing p{margin:6px 0 0;line-height:1.9}
+.closing .closing-sign{text-align:right;margin-top:10px}
+.bell{margin-top:30px}
+.bell-msg{font-size:13px;color:var(--brass);min-height:1.6em;margin-top:8px}
+.back-link{margin-bottom:14px}
+
+/* ===== bottles / shelf ===== */
+.bottles{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:18px 14px}
+.bottle{text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.bottle svg{width:60px;height:120px;margin-bottom:4px}
+.bottle .bt{font-family:var(--f-type);font-size:10px;letter-spacing:.2em;color:var(--brass)}
+.bottle .bn{font-weight:600;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.bottle .bnote{font-size:11px;color:var(--cream-dim);line-height:1.6;overflow-wrap:anywhere}
+.bottle a{font-family:var(--f-type);font-size:11px;color:var(--brass);margin-top:2px}
+.bottle .btn{margin-top:6px}
+.shelf-wish{margin:34px auto 0;max-width:480px;text-align:left;padding:22px 18px;border:1px solid var(--line);background:rgba(0,0,0,.18)}
+.shelf-wish p{font-size:13px;color:var(--cream-dim);margin:8px 0 0}
+.shelf-wish .bottles{margin-top:18px}
+.form-grid .checkline{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--cream);cursor:pointer}
+.checkline input{width:18px;height:18px;accent-color:var(--brass)}
+
+@media (max-width:480px){
+  .form-grid{grid-template-columns:1fr}
+  .card{padding:24px 18px}
+  .dots span{width:40px;height:50px}
+}
+@media (prefers-reduced-motion:reduce){
+  .neon .flick{animation:none!important}
+  .flip,.toggle::after,.glass .liquid,.glass-text{transition:none}
+  .dots.shake,.door.thud{animation:none}
+}

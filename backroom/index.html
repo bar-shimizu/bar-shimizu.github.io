@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#1c1411">
+<!-- ホーム画面に追加したとき、Safari のタブではなく単独のアプリとして開くための設定（基本設計 D-11） -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bar清水">
+<link rel="apple-touch-icon" href="../assets/img/icon-180.png">
+<link rel="icon" href="../assets/img/icon-192.png">
+<title>Bar清水 裏口</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Shippori+Mincho:wght@400;600;800&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script type="module" src="../assets/js/admin.js"></script>
+</head>
+<body>
+<main class="wrap">
+
+  <!-- ========== A01 端末の設定（初期設定・端末登録） ========== -->
+  <section class="screen" id="s-setup" hidden>
+    <div class="card login">
+      <div class="eyebrow">Setup</div>
+      <h2 style="margin-top:8px">この端末の設定</h2>
+      <p class="lead">この画面は、サイトを作った人が操作します。</p>
+      <form id="setupForm" novalidate>
+        <label for="su-pw">合言葉</label>
+        <input class="field" id="su-pw" type="password" autocomplete="off">
+        <label for="su-pw2">合言葉（もう一度）</label>
+        <input class="field" id="su-pw2" type="password" autocomplete="off">
+        <p class="lead">初めての設定では、ここで入れた合言葉がそのまま登録されます。12文字以上で、単語を3〜4個つなげた文がおすすめです。</p>
+        <label for="su-token">GitHubのトークン</label>
+        <input class="field" id="su-token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div class="err" id="su-msg" aria-live="polite"></div>
+        <button class="btn" type="submit" id="su-btn" style="width:100%;margin-top:6px">設定する</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== A02 ログイン ========== -->
+  <section class="screen" id="s-login" hidden>
+    <div class="card login">
+      <div class="eyebrow">Back room</div>
+      <h2 style="margin-top:8px">マスターの合言葉</h2>
+      <form id="loginForm" novalidate>
+        <label for="pw">合言葉</label>
+        <input class="field" id="pw" type="password" autocomplete="off">
+        <div class="err" id="loginErr" aria-live="polite"></div>
+        <button class="btn" type="submit" id="loginBtn" style="width:100%;margin-top:6px">裏口を開ける</button>
+      </form>
+      <div class="resetup" id="resetupBox" hidden>
+        <button class="btn ghost small" type="button" id="resetup">設定をやり直す</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== A03 台帳 ========== -->
+  <section class="screen" id="s-admin" hidden>
+    <div class="admin-head">
+      <div>
+        <div class="eyebrow">Guest ledger</div>
+        <h2 style="margin-top:4px">ご来店台帳</h2>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost" type="button" data-go="shelf">棚を見る</button>
+        <button class="btn" type="button" data-go="create">＋ 新しい案内を作る</button>
+      </div>
+    </div>
+
+    <div class="card switchboard">
+      <div>
+        <div class="eyebrow">Neon switch</div>
+        <div class="mini neon off" id="neonMini">Bar清水</div>
+        <div class="state" id="neonState"></div>
+        <div class="neon-note" id="neonNote" hidden></div>
+        <div class="err" id="neonErr" aria-live="polite"></div>
+      </div>
+      <select class="field sign-select" id="signSelect" aria-label="看板の表示"></select>
+    </div>
+
+    <div id="ledger"></div>
+  </section>
+
+  <!-- ========== A04 案内作成・修正 ========== -->
+  <section class="screen" id="s-create" hidden>
+    <div class="back-link"><button class="btn ghost" type="button" data-go="admin">← 台帳に戻る</button></div>
+    <div class="card">
+      <div class="eyebrow" id="cEyebrow">New invitation</div>
+      <h2 style="margin-top:4px" id="cTitle">案内状をしたためる</h2>
+      <hr class="rule">
+      <form id="createForm" class="form-grid" novalidate>
+        <div>
+          <label for="f-date">日付</label>
+          <input class="field" id="f-date" type="date">
+        </div>
+        <div>
+          <label for="f-time">集合時刻</label>
+          <input class="field" id="f-time" type="time" value="19:00">
+        </div>
+        <div class="full">
+          <label for="f-name">グループ名（「御一行様」は自動で付きます）</label>
+          <input class="field" id="f-name" type="text">
+        </div>
+        <div>
+          <label for="f-size">人数</label>
+          <input class="field" id="f-size" type="number" min="1" inputmode="numeric">
+        </div>
+        <div>
+          <label for="f-close">お開き目安</label>
+          <input class="field" id="f-close" type="time" value="23:00">
+        </div>
+        <div class="full">
+          <label for="f-spot">集合場所（案内状に出る文言。前回の内容が入ります）</label>
+          <input class="field" id="f-spot" type="text">
+        </div>
+        <div class="full">
+          <label for="f-map">地図のURL（任意・Google マップの「共有」でコピーしたもの）</label>
+          <input class="field" id="f-map" type="url" placeholder="https://maps.app.goo.gl/…" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="full">
+          <label for="f-drink">本日のおすすめの一杯</label>
+          <input class="field" id="f-drink" type="text">
+        </div>
+        <div class="full">
+          <label for="f-msg">マスターからのひとこと</label>
+          <textarea class="field" id="f-msg"></textarea>
+        </div>
+        <div class="full">
+          <label class="checkline" for="f-first"><input type="checkbox" id="f-first" checked> 初めての方がいる（案内に「Your first bottle」の欄を表示）</label>
+        </div>
+        <div class="full">
+          <label for="f-pin">暗証番号（4桁・自動発行。変更もできます）</label>
+          <div class="pin-row">
+            <input class="field" id="f-pin" type="text" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" autocomplete="off">
+            <button class="btn ghost small" type="button" id="rePin">振り直す</button>
+          </div>
+          <div class="err info" id="pinWarn" aria-live="polite"></div>
+        </div>
+        <div class="full" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" type="submit" id="submitBtn">案内状を作成</button>
+          <button class="btn ghost" type="button" id="previewBtn">お客様の見え方で確認</button>
+        </div>
+        <div class="full err" id="createErr" aria-live="polite"></div>
+      </form>
+      <div class="made" id="made" hidden>
+        <div id="madeMsg"></div>
+        <dl>
+          <dt>LINK</dt><dd id="madeLink"></dd>
+          <dt>PIN</dt><dd id="madePin" class="pin"></dd>
+        </dl>
+        <div class="made-row">
+          <button class="btn small" type="button" id="copyBtn">リンクをコピー</button>
+          <button class="btn ghost small" type="button" id="tryBtn">お客様の流れで試す</button>
+          <button class="btn ghost small" type="button" data-go="admin">台帳を見る</button>
+        </div>
+        <div class="copy-fallback" id="madeCopyFallback" hidden></div>
+        <p class="sub" id="madeSub"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== A05 棚 ========== -->
+  <section class="screen" id="s-shelf" hidden>
+    <div class="back-link"><button class="btn ghost" type="button" data-go="admin">← 台帳に戻る</button></div>
+    <div class="admin-head">
+      <div>
+        <div class="eyebrow">Back bar</div>
+        <h2 style="margin-top:4px">棚：いま置いていないお酒</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="bottles" id="shelfList"></div>
+      <div class="err" id="shelfListErr" aria-live="polite"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="eyebrow">Add a bottle</div>
+      <h2 style="margin-top:4px;font-size:18px">棚に空きを加える</h2>
+      <hr class="rule">
+      <form id="shelfForm" class="form-grid" novalidate>
+        <div class="full">
+          <label for="b-name">銘柄名</label>
+          <input class="field" id="b-name" type="text" placeholder="例：モンキーショルダー">
+        </div>
+        <div>
+          <label for="b-type">種類（イラストが変わります）</label>
+          <select class="field" id="b-type"></select>
+        </div>
+        <div>
+          <label for="b-note">ひとこと（任意）</label>
+          <input class="field" id="b-note" type="text" placeholder="例：ハイボール用に">
+        </div>
+        <div class="full">
+          <label for="b-url">商品ページのURL（任意・Amazonなどを貼り付け）</label>
+          <input class="field" id="b-url" type="url" placeholder="https://" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="full"><button class="btn" type="submit" id="shelfBtn">棚に加える</button></div>
+        <div class="full err" id="shelfErr" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== 案内プレビュー（G03 と同じ描画） ========== -->
+  <section class="screen" id="s-guest" hidden>
+    <div class="back-link"><button class="btn ghost" type="button" id="guestBack">← 台帳に戻る</button></div>
+    <article class="card invite" id="invite"></article>
+  </section>
+
+</main>
+<noscript><p style="text-align:center;color:#b9a98d">このページを使うには、JavaScript を有効にしてください。</p></noscript>
+</body>
+</html>
