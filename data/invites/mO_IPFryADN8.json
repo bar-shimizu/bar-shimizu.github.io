@@ -1,0 +1,10 @@
+{
+ "v": 1,
+ "kdf": {
+  "alg": "PBKDF2-SHA256",
+  "iter": 600000,
+  "salt": "WWUaAfn23f264v_RMW8kuQ"
+ },
+ "iv": "O140OHdmfqv2K_f-",
+ "ct": "YZgWnY8-LEoZY_9d9ux4MYlm7wzmKZI2CgRQK-Zag-4Ld7H34gur6gK8cR99CJ7gSNsE1hUgepT0q64ud-IaaXC_Y352dd4hDAHhE_1NsPQoMAgTSw4LnL6CKi625qquVBIx-7CU--lwVQCvVMtlQjpCM0GZ4fT80AxyntJT6Q7e6qFgSrBxsotXKQIMwzgFZ23l_X76yILRydWH_q37qLa0FUwgAoSVYZ5EZr_8g-ecXwzlYR2s5JJoYh6eiLJL3IyFXv4j9cFusB4hxs7cveFrSEFIZAa2hYK5StqkFxCEgZLkSlKq7Jwh-QLUfuLogqzIl1_3N0G5FRcCfxgUDSzIK3Po0QAar3715rap6wonMIK7TKELeNsI8o5EwqIpCLGpGot7hV58J6hNXG8bfUAV5ZLpXOMy5yhlfitUlxxvMMPILa2wqpQ7DEgbqA"
+}
